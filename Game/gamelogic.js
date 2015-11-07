@@ -75,7 +75,7 @@ define(['Core/Logic/Logic'], function(LogicCore){
 		@returns {int}
 	*/
 	_p.getRedScore = function(){
-		return this._redWon;
+		return this.getPlayer("Red").currency("Score").getAmount();
 	};
 	
 	/**
@@ -83,7 +83,7 @@ define(['Core/Logic/Logic'], function(LogicCore){
 		@returns {int}
 	*/
 	_p.getGreenScore = function(){
-		return this._greenWon;
+		return this.getPlayer("Green").currency("Score").getAmount();
 	};
 	
 	/**

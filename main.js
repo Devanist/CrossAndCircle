@@ -15,6 +15,10 @@ requirejs(['rConfig',
 	_g.setLogic(_logic);
 	_g.setSoundController(_sctrl);
 
+	//Dodanie graczy do gry
+	_logic.addPlayer("Red");
+	_logic.addPlayer("Green");
+
 	//Czyszczenie ekranu
 	_gfxr.clear();
 

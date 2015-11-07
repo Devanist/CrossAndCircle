@@ -1,6 +1,6 @@
 define([
     'Utils/init',
-    'Core/Logic/Player'
+    'Game/gameplayer'
     ], function(Utils, Player){
     
     /**
@@ -68,10 +68,17 @@ define([
          * @param {string} name - Nazwa gracza
          * @param {object} player - Obiekt przechowujący informacje o graczu
          */
-        addPlayer : function(name, player){
-            this._players[name] = player;
-        }
+        addPlayer : function(name){
+            this._players[name] = new Player(name);
+        },
 
+        /**
+         * Funkcja zwraca gracza o podanej nazwie
+         * @param {string} name - Nazwa zwracanego gracza
+         */
+        getPlayer: function(name){
+            return this._players[name];
+        }
     };
     
     return LogicCore;
