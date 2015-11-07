@@ -78,8 +78,8 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 				this._logic.setState(Logic.FINISHED);
 				this.createSplash();
 				this._logic.increaseScore(who);
-				this._scoreRedLabel.setText(this._logic.getRedScore());
-				this._scoreGreenLabel.setText(this._logic.getGreenScore());
+				this._scoreRedLabel.setText(this._logic.getPlayerScore("Red"));
+				this._scoreGreenLabel.setText(this._logic.getPlayerScore("Green"));
 				var that = this;
 				this.createButton(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(){
 					//removebuttons
@@ -139,9 +139,9 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 				break;
 	
 			case Logic.SCREEN_GAME:
-				this.createLabel(0.3, 0.2, 0.4, 0.3, this._canvas.width, this._canvas.height, "green", this._logic.getGreenScore(), 0.2);
+				this.createLabel(0.3, 0.2, 0.4, 0.3, this._canvas.width, this._canvas.height, "green", this._logic.getPlayerScore("Green"), 0.2);
 				this._scoreGreenLabel = this.getLastGUIElement();
-				this.createLabel(0.3, 0.95, 0.4, 0.3, this._canvas.width, this._canvas.height, "red", this._logic.getRedScore(), 0.2);
+				this.createLabel(0.3, 0.95, 0.4, 0.3, this._canvas.width, this._canvas.height, "red", this._logic.getPlayerScore("Red"), 0.2);
 				this._scoreRedLabel = this.getLastGUIElement();
 				this.renderScreen();
 				break;

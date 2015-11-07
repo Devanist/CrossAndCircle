@@ -71,19 +71,12 @@ define(['Core/Logic/Logic'], function(LogicCore){
     GameLogic.DRAW = 3;
 	
 	/**
-		Funkcja zwracająca wynik czerwonego gracza
-		@returns {int}
-	*/
-	_p.getRedScore = function(){
-		return this.getPlayer("Red").currency("Score").getAmount();
-	};
-	
-	/**
-		Funkcja zwracająca wynik zielonego gracza
-		@returns {int}
-	*/
-	_p.getGreenScore = function(){
-		return this.getPlayer("Green").currency("Score").getAmount();
+	 * Funkcja zwracająca wynik danego gracza
+	 * @param {string} player - Nazwa gracza
+	 * @returns {int}
+	 */
+	_p.getPlayerScore = function(player){
+		return this._players[player].currency("Score").getAmount();
 	};
 	
 	/**
@@ -104,8 +97,12 @@ define(['Core/Logic/Logic'], function(LogicCore){
 	    Funkcja resetująca wynik gry.
 	 */
 	_p.resetScore = function(){
-		this.getPlayer("Red").currency("Score").setAmount(0);
-		this.getPlayer("Green").currency("Score").setAmount(0);
+		
+		for(var player in this._players){
+			if(this._players.hasOwnProperty(player))
+				this._players[player].currency("Score").setAmount(0);
+		}
+		
 	};
 	
 	/**
