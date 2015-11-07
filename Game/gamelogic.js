@@ -104,8 +104,8 @@ define(['Core/Logic/Logic'], function(LogicCore){
 	    Funkcja resetująca wynik gry.
 	 */
 	_p.resetScore = function(){
-		this._redWon = 0;
-		this._greenWon = 0;
+		this.getPlayer("Red").currency("Score").setAmount(0);
+		this.getPlayer("Green").currency("Score").setAmount(0);
 	};
 	
 	/**
@@ -152,10 +152,10 @@ define(['Core/Logic/Logic'], function(LogicCore){
 	 */
 	_p.increaseScore = function(who){
 		if(who == GameLogic.RED){
-			this._redWon++;
+			this.getPlayer("Red").currency("Score").changeValueBy(1);
 		}
 		else if(who == GameLogic.GREEN){
-			this._greenWon++;
+			this.getPlayer("Green").currency("Score").changeValueBy(1);
 		}
 	};
 	
