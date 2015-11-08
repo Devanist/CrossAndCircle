@@ -165,7 +165,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		}
 		if(this._logic.currentScreen() == Logic.SCREEN_GAME){
 			//KLIKNIECIE PODCZAS GRY
-			if(this._logic.getState() != Logic.FINISHED && (y >= this._squares.top || y <= this._squares.bottom)){
+			if(this._logic.getState() != Logic.FINISHED && (y >= this._squares.top && y <= this._squares.bottom)){
 	
 				var end;
 	
