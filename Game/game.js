@@ -54,6 +54,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 			this._logic.putInCell(w,k);
 			this.renderSigns();
 			this._logic.nextPlayer();
+			this._logic.madeMove();
 		}
 	};
 	
@@ -202,7 +203,6 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 						this.tryAddSign(2,2);
 					}
 				}
-				this._logic.madeMove();
 				end = this._logic.checkIfWin();
 				this.handleWin(end);
 				this._renderer.clear();
