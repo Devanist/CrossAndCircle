@@ -162,7 +162,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 			for(var i = 0; i < this._GUIList.length; i++){
 				if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX()
 					&& y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
-					this._GUIList[i].callback(e);
+					this._GUIList[i].runCallback(e);
 				}
 			}
 		}
@@ -214,7 +214,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 				for(var i = 0; i < this._GUIList.length; i++){
 					if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() 
 					&& y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
-						this._GUIList[i].callback(e);
+						this._GUIList[i].runCallback(e);
 					}
 				}
 			}
