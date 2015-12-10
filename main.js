@@ -32,8 +32,7 @@ requirejs(['rConfig',
 	});
 	
 	_g.getCanvas().addEventListener("mousedown", function(e){
-		_g.handleClick(e.x, e.y);
-		e.stopPropagation();
+		_g.handleClick(e);
 		e.preventDefault();
 	}, false);
 
