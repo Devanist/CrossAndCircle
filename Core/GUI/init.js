@@ -136,6 +136,16 @@ define([], function(){
             this._w = w || this._w;
             this._h = h || this._h;
             this.update(width, height);
+        },
+        
+        /**
+         * Metoda uruchamia funkcję podaną jako callback elementu.
+         * @param {obj} args Obiekt z argumentami dla funkcji callback
+         */ 
+        runCallback : function(args){
+            if(this.callback != null && this.callback != "undefined"){
+                this.callback(args);
+            }
         }
         
     };

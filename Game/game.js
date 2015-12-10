@@ -54,6 +54,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 			this._logic.putInCell(w,k);
 			this.renderSigns();
 			this._logic.nextPlayer();
+			this._logic.madeMove();
 		}
 	};
 	
@@ -81,8 +82,9 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 				this._scoreRedLabel.setText(this._logic.getPlayerScore("Red"));
 				this._scoreGreenLabel.setText(this._logic.getPlayerScore("Green"));
 				var that = this;
-				this.createButton(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(){
+				this.createButton(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					//removebuttons
+					e.stopPropagation();
 					that._renderer.clear();
 					that.removeLastElement();
 					that.removeLastElement();
@@ -90,13 +92,12 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 					that.removeLastElement();
 					that._logic.resetLogic();
 					that.renderScreen();
-					e.stopPropagation();
 				}, "AGAIN");
-				this.createButton(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(){
+				this.createButton(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+					e.stopPropagation();
 					that._logic.resetScore();
 					that._logic.resetLogic();
 					that._logic.setScreen(Logic.SCREEN_MENU);
-					e.stopPropagation();
 				}, "MAIN MENU");
 				this.createLabel(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", "");
 				if(who == Logic.RED){
@@ -126,8 +127,8 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 				this._renderer.renderMenu(this._fontSize);
 				this.createButton(0.3, 0.6, 0.4, 0.08, this._canvas.width, this._canvas.height,
 						function(e){
-							that._logic.setScreen(Logic.SCREEN_GAME);
 							e.stopPropagation();
+							that._logic.setScreen(Logic.SCREEN_GAME);
 						}, 
 						"NEW GAME");
 				this.createButton(0.3, 0.75, 0.4, 0.08, this._canvas.width, this._canvas.height,
@@ -153,19 +154,21 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		@param {double} x - Współrzędna x kliknięcia
 		@param {double} y - Współrzędna y kliknięcia
 	*/
-	_p.handleClick = function(x, y){
+	_p.handleClick = function(e){
+		var x = e.x;
+		var y = e.y;
 		this._soundctrl.playSound('tick');
 		if(this._logic.currentScreen() == Logic.SCREEN_MENU){
 			for(var i = 0; i < this._GUIList.length; i++){
 				if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX()
 					&& y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
-					this._GUIList[i].callback(this);
+					this._GUIList[i].runCallback(e);
 				}
 			}
 		}
-		if(this._logic.currentScreen() == Logic.SCREEN_GAME){
+		else if(this._logic.currentScreen() == Logic.SCREEN_GAME){
 			//KLIKNIECIE PODCZAS GRY
-			if(this._logic.getState() != Logic.FINISHED && (y >= this._squares.top || y <= this._squares.bottom)){
+			if(this._logic.getState() != Logic.FINISHED && (y >= this._squares.top && y <= this._squares.bottom)){
 	
 				var end;
 	
@@ -202,7 +205,6 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 						this.tryAddSign(2,2);
 					}
 				}
-				this._logic.madeMove();
 				end = this._logic.checkIfWin();
 				this.handleWin(end);
 				this._renderer.clear();
@@ -212,7 +214,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 				for(var i = 0; i < this._GUIList.length; i++){
 					if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() 
 					&& y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
-						this._GUIList[i].callback(this);
+						this._GUIList[i].runCallback(e);
 					}
 				}
 			}
