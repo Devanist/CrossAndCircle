@@ -35,11 +35,8 @@ requirejs(['rConfig',
 		_g.handleClick(e);
 		e.preventDefault();
 	}, false);
-
-	_g.setUpScreen();
-
-	//Renderowanie
-	_g.renderScreen();
-	_g.renderGUI();
+    
+    //Wyrysuj logo silnika
+    _g.runGame();
 
 });

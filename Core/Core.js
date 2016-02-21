@@ -1,5 +1,8 @@
-define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/init'],
-		function(Logic, Button, Label, GUI){
+define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init'],
+		function(Logic, Button, Label, Splash, GUI){
+			
+	"use strict";
+	
 /**
 	Konstruktor - tworzy obiekt klasy Game. W całym programie powinna występować tylko jedna instancja tej klasy.
 	Klasa odpowiedzialna jest za komunikacje pozostałych klas w programie. Przyjmuje informacje o zdarzeniach
@@ -49,6 +52,13 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/init'],
 		*/
 		getContext2D : function(){
 			return this._canvas.getContext('2d');
+		},
+		
+		/**
+		 * Funkcja zwracająca context 3D aka webGL/experimental webGL
+		 */
+		getContext3D : function(){
+			return this._canvas.getContext('webgl') || this._canvas.getContext('experimental-webgl');
 		},
 		
 		/**
@@ -172,16 +182,33 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/init'],
 		/**
 		 * Funkcja tworzy splash i dodaje go do listy elementów GUI.
 		 */
-		createSplash : function(){
-			var splash = {};
-			splash.getX = function(){return 0};
-			splash.getY = function(){return 0};
-			splash.getEndX = function(){return 0};
-			splash.getEndY = function(){return 0};
-			splash.getType = function(){ return "splash" };
-			this._GUIList[this._GUIList.length] = splash;
+		createSplash : function(color, secondColor){
+			this._GUIList[this._GUIList.length] = new Splash(color, secondColor);
 		},
-		
+        
+        /**
+         * Funkcja wyświetla logo silnika.
+         * TO-DO
+         */
+		runGame : function(){
+			var that = this;
+            /*var vid = document.getElementById("logo");
+            vid.addEventListener('play', function(){
+				if(!$this.paused && !$this.ended){
+					
+				}
+				else{
+					that.setUpScreen();
+	                that.renderScreen();
+	                that.renderGUI();
+				}
+			});
+            */
+            that.setUpScreen();
+	                that.renderScreen();
+	                that.renderGUI();
+        },
+        
 		/**
 			Funkcja rysuje wszystkie istniejące elementy graficznego interfejsu użytkownika.
 		*/
@@ -194,8 +221,10 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/init'],
 					this._renderer.renderLabel(this._fontSize, this._GUIList[i]);
 				}
 				if(this._GUIList[i].getType() === "splash"){
-					this._renderer.renderSplash();
+                    console.log("asfas")
+					this._renderer.renderSplash(this._GUIList[i]);
 				}
+                console.log(this._GUIList[i].getType());
 			}
 		},
 		
