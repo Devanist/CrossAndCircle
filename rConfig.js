@@ -1,7 +1,8 @@
 require.config({
 	paths: {
 		text: '../lib/text',
-		json: '../lib/json'	
+		json: '../lib/json'
 	},
-	baseUrl: '/'
-})
+	baseUrl: '.'
+});
+requirejs(['main']);

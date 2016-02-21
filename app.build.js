@@ -1,10 +1,8 @@
-{
-	appDir: "",
-	baseUrl: "",
-	dir: "bin",
-	modules: [
-		{
-			name: "main.js"
-		}
-	]
-}
+({
+    baseUrl: ".",
+    paths: {
+        
+    },
+    name: "main",
+    out: "build/main-built.js"
+})
