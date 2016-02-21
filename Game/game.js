@@ -77,7 +77,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		if(this._logic.getState() != Logic.FINISHED){
 			if(who != Logic.EMPTY){
 				this._logic.setState(Logic.FINISHED);
-				this.createSplash();
+				this.createSplash("white", {r: 0, g: 0, b: 0});
 				this._logic.increaseScore(who);
 				this._scoreRedLabel.setText(this._logic.getPlayerScore("Red"));
 				this._scoreGreenLabel.setText(this._logic.getPlayerScore("Green"));
