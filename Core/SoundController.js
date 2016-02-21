@@ -1,7 +1,7 @@
 define(['json!Game/sounds.json'],function(cfg){
 	
 	/**
-	 * Klasa kontrolująca odtwarzanie i miksowanie audio w grze.
+	 * Klasa kontrolująca odtwarzanie i audio w grze.
 	 * @constructor
 	 */
 	var SoundController = function(){
