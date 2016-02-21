@@ -38,7 +38,12 @@ define(['Core/GUI/init.js'], function(GUI){
 		 * @param {String} name Nazwa usuwanego elementu
 		 */
 		deleteElement : function(name){
-			
+			if(this._elements[name]){
+				this._elements[name] = null;
+			}
+			else{
+				console.error("Element with name " + name + " don't exist in this group.");
+			}
 		}
 		
 	}
