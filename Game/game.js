@@ -4,7 +4,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		Core.call(this, canvas, font);
 		this._verticalSize = 0.33;
 		this._horizontalSize = 0.33;
-		this._squares;
+		this._squares = null;
 	};
 	
 	Game.prototype = Object.create(Core.prototype, {
@@ -41,8 +41,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 	 */
 	_p.setLogic = function(logic){
 		this.assignLogic(logic);
-		
-	}
+	};
 	
 	/**
 		Funkcja próbuje dodać nowy znak na planszy.
@@ -50,7 +49,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		@param {int} k - numer kolumny
 	*/
 	_p.tryAddSign = function(w, k){
-		if(this._logic.isCellFree(w,k) == true){
+		if(this._logic.isCellFree(w,k) === true){
 			this._logic.putInCell(w,k);
 			this.renderSigns();
 			this._logic.nextPlayer();
@@ -160,8 +159,8 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		this._soundctrl.playSound('tick');
 		if(this._logic.currentScreen() == Logic.SCREEN_MENU){
 			for(var i = 0; i < this._GUIList.length; i++){
-				if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX()
-					&& y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
+				if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() && 
+                   y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
 					this._GUIList[i].runCallback(e);
 				}
 			}
@@ -212,8 +211,8 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 			}
 			else{
 				for(var i = 0; i < this._GUIList.length; i++){
-					if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() 
-					&& y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
+					if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() && 
+                       y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
 						this._GUIList[i].runCallback(e);
 					}
 				}
@@ -223,4 +222,4 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 	
 	return Game;
 	
-})
+});

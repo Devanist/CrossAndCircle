@@ -143,7 +143,7 @@ define([], function(){
          * @param {obj} args Obiekt z argumentami dla funkcji callback
          */ 
         runCallback : function(args){
-            if(this.callback != null && this.callback != "undefined"){
+            if(this.callback !== null && this.callback != "undefined"){
                 this.callback(args);
             }
         }
@@ -152,4 +152,4 @@ define([], function(){
  
     return GUI;
  
- })
+ });

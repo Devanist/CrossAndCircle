@@ -47,4 +47,4 @@ define(['Core/GUI/init'], function(GUI){
 
     return Button;
 	
-})
+});

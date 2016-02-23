@@ -8,7 +8,7 @@ define(['json!Game/sounds.json'],function(cfg){
 		this._soundsList = [];
 		this.addSounds();
 		this._soundsPlaying = [];
-	}
+	};
 	
 	SoundController.prototype = {
 		
@@ -61,8 +61,8 @@ define(['json!Game/sounds.json'],function(cfg){
 			}
 		},
 		
-	}
+	};
 	
 	return SoundController;
 	
-})
+});

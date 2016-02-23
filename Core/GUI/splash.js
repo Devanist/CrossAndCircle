@@ -7,7 +7,7 @@ define(['Core/GUI/init'], function (GUI) {
         console.log("constructor");
 		GUI.call(this, 0, 0, 0, 0, 0, 0, null, color, "splash");
 		this._secondColor = secondColor;
-	}
+	};
 	
 	Splash.prototype = Object.create(GUI.prototype, {
         constructor:{

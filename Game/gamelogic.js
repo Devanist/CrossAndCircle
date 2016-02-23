@@ -183,7 +183,7 @@ define(['Core/Logic/Logic'], function(LogicCore){
 	
 			row = 0;
 	
-			if(i == 0){
+			if(i === 0){
 				if(this._board[i][0] == GameLogic.RED){
 					diag++;
 				}
@@ -274,7 +274,7 @@ define(['Core/Logic/Logic'], function(LogicCore){
 			return GameLogic.GREEN;
 		}
 	
-		if(this.movesLeft() == 0){
+		if(this.movesLeft() === 0){
 			return GameLogic.DRAW;
 		}
 	
