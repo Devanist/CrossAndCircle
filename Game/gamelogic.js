@@ -149,10 +149,10 @@ define(['Core/Logic/Logic'], function(LogicCore){
 	 */
 	_p.increaseScore = function(who){
 		if(who == GameLogic.RED){
-			this.getPlayer("Red").currency("Score").changeValueBy(1);
+			this.getPlayer("Red").hasWon();
 		}
 		else if(who == GameLogic.GREEN){
-			this.getPlayer("Green").currency("Score").changeValueBy(1);
+			this.getPlayer("Green").hasWon();
 		}
 	};
 	
