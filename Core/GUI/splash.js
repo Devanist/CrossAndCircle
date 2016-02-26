@@ -1,6 +1,9 @@
 define(['Core/GUI/init'], function (GUI) {
 
 	/**
+     * Klasa Splash jest pochodną klasy GUI.
+     * @constructor
+     * @param {String} color Podstawowy kolor gradientu
 	 * @param {obj} secondColor Obiekt zawierający informację o kolorach (r,g,b).
 	 */
 	var Splash = function(color, secondColor){
