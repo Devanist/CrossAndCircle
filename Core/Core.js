@@ -223,7 +223,6 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 				if(this._GUIList[i].getType() === "splash"){
 					this._renderer.renderSplash(this._GUIList[i]);
 				}
-                console.log(this._GUIList[i].getType());
 			}
 		},
 		
