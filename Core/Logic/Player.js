@@ -7,7 +7,7 @@ define([], function(){
 	var Player = function(){
 		this._name = "";
 		this._currencies = {};
-	}
+	};
 	
 	Player.prototype = {
 		
@@ -47,8 +47,8 @@ define([], function(){
 			return this._currencies[name];
 		}
 		
-	}
+	};
 	
 	return Player;
 	
-})
+});

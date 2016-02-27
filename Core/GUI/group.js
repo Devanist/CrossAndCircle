@@ -8,7 +8,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		
 		this._elements = {};
 		
-	}
+	};
 	
 	GUIElementsGroup.prototype = {
 		
@@ -46,8 +46,8 @@ define(['Core/GUI/init.js'], function(GUI){
 			}
 		}
 		
-	}
+	};
 	
 	return GUIElementsGroup;
 	
-})
+});

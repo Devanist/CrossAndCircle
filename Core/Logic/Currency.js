@@ -5,8 +5,8 @@ define([], function(){
 	 * jako rozszerzenia tej klasy.
 	 */
 	var Currency = function(){
-		this._amount;
-	}
+		this._amount = 0;
+	};
 
 	Currency.prototype = {
 		
@@ -34,8 +34,8 @@ define([], function(){
 			this._amount += amount;
 		}
 		
-	}
+	};
 	
 	return Currency;
 	
-})
+});

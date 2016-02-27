@@ -12,7 +12,7 @@ define([
         this._players = {};
         this._currentPlayer = 0;
         this._state = 0;
-    }
+    };
 
     LogicCore.prototype = {
         

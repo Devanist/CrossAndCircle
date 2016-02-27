@@ -18,7 +18,7 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 		this._fontSize = 0.03;
 		this._font = "px 'Monoglyceride'";
 		this._GUIList = [];
-	}
+	};
 	
 	Core.prototype = {
 
@@ -221,10 +221,8 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 					this._renderer.renderLabel(this._fontSize, this._GUIList[i]);
 				}
 				if(this._GUIList[i].getType() === "splash"){
-                    console.log("asfas")
 					this._renderer.renderSplash(this._GUIList[i]);
 				}
-                console.log(this._GUIList[i].getType());
 			}
 		},
 		
@@ -246,8 +244,8 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 			this._GUIList.splice(this._GUIList.length - 1,1);
 		}
 
-	}
+	};
 
 	return Core;
 
-})
+});

@@ -1,0 +1,10 @@
+{
+    "name": "walrusengine",
+    "version": "1.0",
+    "devDependencies": {
+        "jshint": "latest"
+    },
+    "scripts": {
+        "lint": "jshint *\\*.js"
+    }
+}
