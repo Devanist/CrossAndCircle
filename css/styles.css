@@ -7,7 +7,13 @@ body{
 	height: 100%;
 	overflow: hidden;
 }
+
 @font-face{
 	font-family: Monoglyceride;
-	src: url(../res/fonts/Monoglyceride.ttf);
+    src: url('../res/fonts/Monoglyceride.eot?#iefix');
+}
+
+@font-face{
+	font-family: Monoglyceride;
+    src: url('../res/fonts/Monoglyceride.ttf');
 }
