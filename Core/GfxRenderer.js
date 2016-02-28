@@ -206,10 +206,9 @@ define(['Game/gamelogic'], function (Logic) {
 		
 		/**
 		 * Funkcja wyświetlająca na ekranie pionowy gradient.
-		 * @param {String} color Kolor gradientu
+		 * @param {splash} splash - gradient do wyświetlenia
 		 */
 		renderSplash: function (splash) {
-            console.log("rendering splash");
 			var gradient = this._ctx.createLinearGradient(0, 0, 0, this._h);
 			gradient.addColorStop(0, splash.getSecondColor());
 			gradient.addColorStop(2 / 5, splash.getColor());
@@ -217,8 +216,16 @@ define(['Game/gamelogic'], function (Logic) {
 			gradient.addColorStop(1, splash.getSecondColor());
 			this._ctx.fillStyle = gradient;
 			this._ctx.fillRect(0, 0, this._w, this._h);
-		}
-
+		},
+        
+        /**
+         * Funkcja wyświetlająca na ekranie wskazany sprite
+         * @param {sprite} sprite - sprite do wyświetlenia
+         */
+        renderSprite: function(Sprite){
+            this._ctx.drawImage(Sprite.getAsset(), Sprite.getX(), Sprite.getY());
+        }
+        
 	};
 
 	return GfxRenderer;
