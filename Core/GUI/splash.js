@@ -7,7 +7,6 @@ define(['Core/GUI/init'], function (GUI) {
 	 * @param {obj} secondColor Obiekt zawierający informację o kolorach (r,g,b).
 	 */
 	var Splash = function(color, secondColor){
-        console.log("constructor");
 		GUI.call(this, 0, 0, 0, 0, 0, 0, null, color, "splash");
 		this._secondColor = secondColor;
 	};
