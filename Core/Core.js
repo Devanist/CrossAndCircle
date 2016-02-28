@@ -137,6 +137,7 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 			Funkcja rysuje odpowiedni ekran, odpytując klasę Logic.
 		*/
 		renderScreen : function(){
+            this._renderer.clear();
 			if(this._logic.currentScreen() == Logic.SCREEN_MENU){
 				this._renderer.renderMenu(this._fontSize);
 			}
