@@ -1,5 +1,5 @@
-define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init'],
-		function(Logic, Button, Label, Splash, GUI){
+define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init'],
+		function(FileLoader, Logic, Button, Label, Splash, GUI){
 			
 	"use strict";
 	
@@ -18,6 +18,7 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 		this._fontSize = 0.03;
 		this._font = "px 'Monoglyceride'";
 		this._GUIList = [];
+        this._fileLoader = new FileLoader();
 	};
 	
 	Core.prototype = {
@@ -193,21 +194,15 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
          */
 		runGame : function(){
 			var that = this;
-            /*var vid = document.getElementById("logo");
-            vid.addEventListener('play', function(){
-				if(!$this.paused && !$this.ended){
-					
-				}
-				else{
-					that.setUpScreen();
-	                that.renderScreen();
-	                that.renderGUI();
-				}
-			});
-            */
-            that.setUpScreen();
-	                that.renderScreen();
-	                that.renderGUI();
+            this._fileLoader.loadEngineAssets();
+            this._fileLoader.areEngineAssetsLoaded(function(){
+                that.clear();
+                
+                that._renderer.renderSprite();
+                that.setUpScreen();
+                that.renderScreen();
+                that.renderGUI();
+            });
         },
         
 		/**

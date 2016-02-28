@@ -9,18 +9,15 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'], function (sounds, g
 			{
 				name: "engineLogo",
 				assetType: "graphic",
-				source: ""
-			},
-			{
-				name: "engineIntro",
-				assetType: "sound",
-				source: ""
+				source: "http://static.devanist.cba.pl/images/logo.png"
 			}
 		];
 		this._gameAssets = {
 			sounds: [],
 			graphics: []
 		};
+        this._loadedAssets = 0;
+        this._allAssets = this._engineAssets.length;
 	};
 	
 	FileLoader.prototype = {
@@ -29,7 +26,17 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'], function (sounds, g
 		 * Funkcja ładuje zasoby silnika.
 		 */
 		loadEngineAssets: function () {
-			
+			for(var asset in this._engineAssets){
+                if(asset.assetType === "graphic"){
+                    
+                    this._gameAssets.graphics[name] = new Image();
+                    this._gameAssets.graphics[name].onload = function(){
+                        this._loadedAssets++;
+                    }.bind(this);
+                    this._gameAssets.graphics[name].src = asset.source;
+                    
+                }
+            }
 		},
 		
 		loadGameSounds: function () {
@@ -52,8 +59,17 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'], function (sounds, g
 		 */
 		getGraphic: function (name) {
 			return this._gameAssets.graphics[name];
-		}
+		},
+        
+        areEngineAssetsLoaded: function(callback){
+            while(this._loadedAssets !== this._allAssets){
+                console.log("Loaded " + this._loadedAssets + " of " + this._allAssets);
+            }
+            callback();
+        }
 		
 	};
+    
+    return FileLoader;
 	
 });
