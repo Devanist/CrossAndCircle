@@ -55,9 +55,13 @@ define(['Game/gamelogic'], function (Logic) {
 		
 		/**
 			Funkcja czyszcząca ekran - odmalowuje całe płótno na biały kolor
+            @param {String} color Kolor do czyszczenia ekranu, domyślnie biały.
 		*/
-		clear: function () {
-			this._ctx.fillStyle = "white";
+		clear: function (color) {
+            if(color === undefined || color === null){
+                color = "white";
+            }
+			this._ctx.fillStyle = color;
 			this._ctx.fillRect(0, 0, this._w, this._h);
 		},
 		
@@ -222,8 +226,10 @@ define(['Game/gamelogic'], function (Logic) {
          * Funkcja wyświetlająca na ekranie wskazany sprite
          * @param {sprite} sprite - sprite do wyświetlenia
          */
-        renderSprite: function(Sprite){
-            this._ctx.drawImage(Sprite.getAsset(), Sprite.getX(), Sprite.getY());
+        renderSprite: function(sprite){
+            console.log('drawing sprite');
+            console.log(sprite.getAsset());
+            this._ctx.drawImage(sprite.getAsset(), sprite.getX(), sprite.getY());
         }
         
 	};

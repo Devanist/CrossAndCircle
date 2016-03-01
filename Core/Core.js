@@ -1,5 +1,5 @@
-define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init'],
-		function(FileLoader, Logic, Button, Label, Splash, GUI){
+define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init', 'Core/GUI/sprite'],
+		function(FileLoader, Logic, Button, Label, Splash, GUI, Sprite){
 			
 	"use strict";
 	
@@ -194,14 +194,15 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
          */
 		runGame : function(){
 			var that = this;
-            this._fileLoader.loadEngineAssets();
-            this._fileLoader.areEngineAssetsLoaded(function(){
-                that.clear();
-                
-                that._renderer.renderSprite();
-                that.setUpScreen();
-                that.renderScreen();
-                that.renderGUI();
+            this._fileLoader.loadEngineAssets(function(){
+                that._renderer.clear();
+                var engineLogo = new Sprite(1/3.5, 1/5, 0, 0, that._canvas.width, that._canvas.height, that._fileLoader.getGraphic('engineLogo'));
+                that._renderer.renderSprite(engineLogo);
+                setTimeout(function(){
+                    that.setUpScreen();
+                    that.renderScreen();
+                    that.renderGUI();
+                }, 3000);
             });
         },
         

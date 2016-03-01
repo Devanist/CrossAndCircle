@@ -9,7 +9,7 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'], function (sounds, g
 			{
 				name: "engineLogo",
 				assetType: "graphic",
-				source: "http://static.devanist.cba.pl/images/logo.png"
+				source: "Core/Assets/logo.jpg"
 			}
 		];
 		this._gameAssets = {
@@ -25,17 +25,19 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'], function (sounds, g
 		/**
 		 * Funkcja ładuje zasoby silnika.
 		 */
-		loadEngineAssets: function () {
-			for(var asset in this._engineAssets){
-                if(asset.assetType === "graphic"){
-                    
-                    this._gameAssets.graphics[name] = new Image();
-                    this._gameAssets.graphics[name].onload = function(){
-                        this._loadedAssets++;
-                    }.bind(this);
-                    this._gameAssets.graphics[name].src = asset.source;
-                    
-                }
+		loadEngineAssets: function (callback) {
+            var that = this;
+			if(this._loadedAssets !== this._allAssets){
+                var name = this._engineAssets[this._loadedAssets].name;
+                this._gameAssets.graphics[name] = new Image();
+                this._gameAssets.graphics[name].onload = function(e){
+                    that.loadEngineAssets(callback);
+                };
+                this._gameAssets.graphics[name].src = this._engineAssets[this._loadedAssets].source;
+                this._loadedAssets++;
+            }
+            else{
+                callback();
             }
 		},
 		
@@ -59,14 +61,7 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'], function (sounds, g
 		 */
 		getGraphic: function (name) {
 			return this._gameAssets.graphics[name];
-		},
-        
-        areEngineAssetsLoaded: function(callback){
-            while(this._loadedAssets !== this._allAssets){
-                console.log("Loaded " + this._loadedAssets + " of " + this._allAssets);
-            }
-            callback();
-        }
+		}
 		
 	};
     
