@@ -227,9 +227,44 @@ define(['Game/gamelogic'], function (Logic) {
          * @param {sprite} sprite - sprite do wyświetlenia
          */
         renderSprite: function(sprite){
-            console.log('drawing sprite');
-            console.log(sprite.getAsset());
             this._ctx.drawImage(sprite.getAsset(), sprite.getX(), sprite.getY());
+        },
+        
+        /**
+         * Funkcja wyświetla animację zanikania w danym kolorze.
+         * @param {object} position Obiekt zawierający informację o polu jakie ma zostać objęte animacją (x,y,w,h).
+         * @param {object} color Obiekt zawierający informację o składowych koloru (r,g,b).
+         * @param {int} time Czas w ms, w jakim ma zostać wykonana animacja, domyślnie 3000.
+         */ 
+        fadeOut: function(position, color, time){
+		
+		time = time || 3000;
+
+		var that = this;
+        	var alpha = 0.0;
+        	var rgb = "rgba(" + color.r + ", " + color.g + ", " + color.b + ",";
+        	var timeDiff = 16.6; //Aby wartość fps wynosiła 60
+        	var alphaDiff = 1 / (time / 16.6); // 1 / liczba klatek
+        	
+        	var displayFrame = function(){
+        		
+        		that._ctx.fillStyle = rgb + alpha + ")";
+        		that._ctx.fillRect(position.x, position.y, position.w, position.h);
+        		
+        		alpha += alphaDiff;
+        		
+        		if(alpha > 1){
+        			alpha = 1;
+        		}
+        		else if(alpha === 1){
+        			return;
+        		}
+        		
+        		setTimeout(displayFrame, timeDiff);
+        	};
+        	
+        	setTimeout(displayFrame,timeDiff);
+
         }
         
 	};
