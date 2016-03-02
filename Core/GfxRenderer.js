@@ -271,13 +271,20 @@ define(['Game/gamelogic'], function (Logic) {
         
         /**
          * Funkcja wyświetla animację pojawiania w danym kolorze.
-         * @param {object} position Obiekt zawierający informację o polu jakie ma zostać objęte animacją (x,y,w,h).
+         * @param {object} position Obiekt zawierający informację o polu jakie ma zostać objęte animacją (x,y,w,h). Jeżeli ma być to cały ekran, można użyć stringa "all".
          * @param {object} color Obiekt zawierający informację o składowych koloru (r,g,b).
          * @param {int} time Czas w ms, w jakim ma zostać wykonana animacja, domyślnie 3000.
          */ 
         fadeIn : function(position, color, time){
         	
         	time = time || 3000;
+        	
+        	if(typeof(position) === "string" && position === "all"){
+        		position.x = 0;
+        		position.y = 0;
+        		position.w = this._w;
+        		position.h = this._h;
+        	}
 
 		var that = this;
         	var alpha = 0.0;
