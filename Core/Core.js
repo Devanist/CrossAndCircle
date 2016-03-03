@@ -198,32 +198,31 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
         /**
          * Funkcja wyświetla logo silnika, a następnie uruchamia grę.
          */
-	runGame : function(){
-		var that = this;
-		
-            	this._fileLoader.loadEngineAssets(function(){
+        runGame : function(){
+            var that = this;
+            
+            this._fileLoader.loadEngineAssets(function(){
 
-                    that.createSprite(
-                        "CENTER", 
-                        {w:500, h:418}, 
-                        that._canvas.width, 
-                        that._canvas.height, 
-                        that._fileLoader.getGraphic('engineLogo')
-                    );
-            		
-	                that._renderer.clear();
+                that.createSprite(
+                    "CENTER", 
+                    {w:500, h:418}, 
+                    that._canvas.width, 
+                    that._canvas.height, 
+                    that._fileLoader.getGraphic('engineLogo')
+                );
+                
+                that._renderer.clear();
+                that.renderGUI();
+                that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
+                
+                setTimeout(function(){
+                    that.removeLastElement();
+                    that._logic.setScreen(0);
+                    that.setUpScreen();
+                    that.renderScreen();
                     that.renderGUI();
-	                //that._renderer.renderSprite(engineLogo);
-	                that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
-	                
-	                setTimeout(function(){
-                        that.removeLastElement();
-                        that._logic.setScreen(0);
-	                    that.setUpScreen();
-	                    that.renderScreen();
-	                    that.renderGUI();
-	                }, 3000);
-		});
+                }, 3000);
+            });
         },
         
 		/**
