@@ -8,7 +8,7 @@ define([
         @constructor
     */
     var LogicCore = function(){
-        this._currentScreen = 0;
+        this._currentScreen = -1;
         this._players = {};
         this._currentPlayer = 0;
         this._state = 0;

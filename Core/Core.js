@@ -189,20 +189,36 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
 		},
         
         /**
+         * Funkcja tworzy sprite i dodaje go do listy elementów GUI.
+         */
+        createSprite : function(position, size, width, height, sprite){
+            this._GUIList[this._GUIList.length] = new Sprite(position, size, width, height, sprite);
+        },
+        
+        /**
          * Funkcja wyświetla logo silnika, a następnie uruchamia grę.
          */
 	runGame : function(){
 		var that = this;
 		
             	this._fileLoader.loadEngineAssets(function(){
-            		
-            		var engineLogo = new Sprite(1/3.5, 1/5, 0, 0, that._canvas.width, that._canvas.height, that._fileLoader.getGraphic('engineLogo'));
+
+                    that.createSprite(
+                        "CENTER", 
+                        {w:500, h:418}, 
+                        that._canvas.width, 
+                        that._canvas.height, 
+                        that._fileLoader.getGraphic('engineLogo')
+                    );
             		
 	                that._renderer.clear();
-	                that._renderer.renderSprite(engineLogo);
+                    that.renderGUI();
+	                //that._renderer.renderSprite(engineLogo);
 	                that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
 	                
 	                setTimeout(function(){
+                        that.removeLastElement();
+                        that._logic.setScreen(0);
 	                    that.setUpScreen();
 	                    that.renderScreen();
 	                    that.renderGUI();
@@ -224,6 +240,9 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
 				if(this._GUIList[i].getType() === "splash"){
 					this._renderer.renderSplash(this._GUIList[i]);
 				}
+                if(this._GUIList[i].getType() === "sprite"){
+                    this._renderer.renderSprite(this._GUIList[i]);
+                }
 			}
 		},
 		
