@@ -148,51 +148,12 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
 			}
 			this.renderGUI();
 		},
-		 
-		/**
-			Funkcja wywołuje konstruktor klasy Button, tworząc nowy przycisk,
-			a następnie dodaje go do listy elementów GUI.
-			@param {double} x - współrzędna x
-			@param {double} y - współrzędna y
-			@param {double} w - szerokość
-			@param {double} h - wysokość
-			@param {int} width - szerokość okna
-			@param {int} height - wysokość okna
-			@param {function} foo - funkcja callback
-			@param {string} text - tekst do wyświetlenia na przycisku
-		*/
-		createButton : function(x, y, w, h, width, height, foo, text){
-			this._GUIList[this._GUIList.length] = new Button(x, y, w, h, width, height, foo, text);
-		},
-		
-		/**
-		 * Funkcja wywołuje konstruktor klasy Label, tworząc nową etykietę,
-		 * a następnie dodaje ją do listy elementów GUI.
-		 * @param {double} x - współrzędna x
-		 * @param {double} y - współrzędna y
-		 * @param {double} w - szerokość
-		 * @param {double} h - wysokość
-		 * @param {int} width - szerokość okna
-		 * @param {int} height - wysokość okna
-		 * @param {color} color - kolor czcionki
-		 * @param {string} text - tekst do wyświetlenia
-		 */
-		createLabel : function(x, y, w, h, width, height, color, text, fontSize){
-			this._GUIList[this._GUIList.length] = new Label(x, y, w, h, width, height, color, text, fontSize);
-		},
-		
-		/**
-		 * Funkcja tworzy splash i dodaje go do listy elementów GUI.
-		 */
-		createSplash : function(color, secondColor){
-			this._GUIList[this._GUIList.length] = new Splash(color, secondColor);
-		},
         
         /**
-         * Funkcja tworzy sprite i dodaje go do listy elementów GUI.
+         * Dodaje wskazany element GUI do listy.
          */
-        createSprite : function(position, size, width, height, sprite){
-            this._GUIList[this._GUIList.length] = new Sprite(position, size, width, height, sprite);
+        createGUIElement : function(GUIElement){
+            this._GUIList[this._GUIList.length] = GUIElement;
         },
         
         /**
