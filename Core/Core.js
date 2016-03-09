@@ -132,13 +132,14 @@ define([
 			@param {double} y - Współrzędna y kliknięcia
 		*/
 		handleClick : function(x, y){
-		
+            
 		},
 		
 		/**
 			Funkcja przygotowuje elementy ekranu do wyrysowania.
 		*/
 		setUpScreen : function(){
+            
 		},
 		
 		/**
@@ -153,7 +154,7 @@ define([
 				this._squares = this._renderer.renderMap(this._horizontalSize, this._verticalSize);
 				this.renderSigns();
 			}
-			this.renderGUI();
+			this._renderer.renderGroup(this._GUIList);
 		},
         
         /**
@@ -164,23 +165,25 @@ define([
             
             this._fileLoader.loadEngineAssets(function(){
 
-		that.createGUIElement(new Sprite("CENTER", 
-                    {w:500, h:418}, 
-                    that._canvas.width, 
-                    that._canvas.height, 
-                    that._fileLoader.getGraphic('engineLogo')
-                ));
-                
+                that._GUIList.addElement("engine_logo", 
+                    new Sprite("CENTER", 
+                        {w:500, h:418}, 
+                        that._canvas.width, 
+                        that._canvas.height, 
+                        that._fileLoader.getGraphic('engineLogo')
+                    )
+                );
+                    
                 that._renderer.clear();
-                that.renderGUI();
+                that._renderer.renderGroup(that._GUIList);
                 that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
-                
+                    
                 setTimeout(function(){
-                    that.removeLastElement();
+                    that._GUIList.deleteElement("engine_logo");
                     that._logic.setScreen(0);
                     that.setUpScreen();
                     that.renderScreen();
-                    that.renderGUI();
+                    that._renderer.renderGroup(that._GUIList);
                 }, 3000);
             });
         }

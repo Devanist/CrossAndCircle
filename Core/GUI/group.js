@@ -6,7 +6,7 @@ define(['Core/GUI/init.js'], function(GUI){
 	 */
 	var GUIElementsGroup = function(){
 		
-		this._elements = [];
+		this._elements = {};
 		
 	};
 	
@@ -18,7 +18,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		 * @param {GUI} element Element GUI
 		 */
 		addElement : function(name, element){
-			if(!this._elements[name]){
+			if(this._elements[name] !== null && this._elements !== undefined){
 				this._elements[name] = element;
 			}
 			else{
@@ -30,7 +30,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		 * Metoda usuwająca wszystkie elementy z danej grupy.
 		 */
 		deleteAllElements : function(){
-			this._elements = null;
+			this._elements = {};
 		},
 		
 		/**

@@ -317,7 +317,7 @@ define(['Game/gamelogic'], function (Logic) {
         renderGroup : function(group){
             var l = group.length();
             var el = null;
-            for(var i  = 0; i < l; i++){
+            for(var i = 0; i < l; i++){
                 el = group.getElement(i);
                 if(el.getType() === "sprite"){
                     this.renderSprite(el);
