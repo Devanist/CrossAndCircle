@@ -53,8 +53,8 @@ define([], function(){
         
         /**
             Na nowo oblicza pozycje i rozmiary elementów GUI po zmianie rozmiaru okna.
-            @param {double} width - Szerokość okna
-            @param {double} height - Wysokość okna
+            @param {int} width - Szerokość okna
+            @param {int} height - Wysokość okna
         */
         update : function(width, height){
             this._realX = this._x * width;
