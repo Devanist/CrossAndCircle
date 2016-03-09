@@ -164,13 +164,12 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
             
             this._fileLoader.loadEngineAssets(function(){
 
-                that.createSprite(
-                    "CENTER", 
+		that.createGUIElement(new Sprite("CENTER", 
                     {w:500, h:418}, 
                     that._canvas.width, 
                     that._canvas.height, 
                     that._fileLoader.getGraphic('engineLogo')
-                );
+                ));
                 
                 that._renderer.clear();
                 that.renderGUI();
