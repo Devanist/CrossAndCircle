@@ -176,7 +176,7 @@ define([
                     
                 that._renderer.clear();
                 that._renderer.renderGroup(that._GUIList);
-                that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
+                //that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
                     
                 setTimeout(function(){
                     that._GUIList.deleteElement("engine_logo");

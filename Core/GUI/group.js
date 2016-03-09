@@ -6,7 +6,8 @@ define(['Core/GUI/init.js'], function(GUI){
 	 */
 	var GUIElementsGroup = function(){
 		
-		this._elements = {};
+		this._elements = [];
+        this._length = 0;
 		
 	};
 	
@@ -20,6 +21,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		addElement : function(name, element){
 			if(this._elements[name] !== null && this._elements !== undefined){
 				this._elements[name] = element;
+                this._length++;
 			}
 			else{
 				console.error("Element with name " + name + " already exists!");
@@ -31,6 +33,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		 */
 		deleteAllElements : function(){
 			this._elements = {};
+            this._length = 0;
 		},
 		
 		/**
@@ -40,6 +43,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		deleteElement : function(name){
 			if(this._elements[name]){
 				this._elements[name] = null;
+                this._length--;
 			}
 			else{
 				console.error("Element with name " + name + " don't exist in this group.");
@@ -63,7 +67,7 @@ define(['Core/GUI/init.js'], function(GUI){
         },
         
         length : function(){
-            return this._elements.length;
+            return this._length;
         },
         
         getType : function(){
