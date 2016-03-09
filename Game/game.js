@@ -76,12 +76,12 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		if(this._logic.getState() != Logic.FINISHED){
 			if(who != Logic.EMPTY){
 				this._logic.setState(Logic.FINISHED);
-				this.createSplash("white", {r: 0, g: 0, b: 0});
+				this.createGUIElement(new Splash("white", {r: 0, g: 0, b: 0}));
 				this._logic.increaseScore(who);
 				this._scoreRedLabel.setText(this._logic.getPlayerScore("Red"));
 				this._scoreGreenLabel.setText(this._logic.getPlayerScore("Green"));
 				var that = this;
-				this.createButton(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				this.createGUIElement(new Button(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					//removebuttons
 					e.stopPropagation();
 					that._renderer.clear();
@@ -91,14 +91,14 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 					that.removeLastElement();
 					that._logic.resetLogic();
 					that.renderScreen();
-				}, "AGAIN");
-				this.createButton(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				}, "AGAIN"));
+				this.createGUIElement(new Button(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					e.stopPropagation();
 					that._logic.resetScore();
 					that._logic.resetLogic();
 					that._logic.setScreen(Logic.SCREEN_MENU);
-				}, "MAIN MENU");
-				this.createLabel(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", "");
+				}, "MAIN MENU"));
+				this.createGUIElement(new Label(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", ""));
 				if(who == Logic.RED){
 					this._GUIList[this._GUIList.length - 1].setText("red won!");
 				}
@@ -124,24 +124,24 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 	
 			case Logic.SCREEN_MENU:
 				this._renderer.renderMenu(this._fontSize);
-				this.createButton(0.3, 0.6, 0.4, 0.08, this._canvas.width, this._canvas.height,
+				this.createGUIElement(new Button(0.3, 0.6, 0.4, 0.08, this._canvas.width, this._canvas.height,
 						function(e){
 							e.stopPropagation();
 							that._logic.setScreen(Logic.SCREEN_GAME);
 						}, 
-						"NEW GAME");
-				this.createButton(0.3, 0.75, 0.4, 0.08, this._canvas.width, this._canvas.height,
+						"NEW GAME"));
+				this.createGUIElement(new Button(0.3, 0.75, 0.4, 0.08, this._canvas.width, this._canvas.height,
 						function(){
 							document.getElementById("aboutLink").click();
 					},
-					"ABOUT");
+					"ABOUT"));
 				this.renderScreen();
 				break;
 	
 			case Logic.SCREEN_GAME:
-				this.createLabel(0.3, 0.2, 0.4, 0.3, this._canvas.width, this._canvas.height, "green", this._logic.getPlayerScore("Green"), 0.2);
+				this.createGUIElement(new Label(0.3, 0.2, 0.4, 0.3, this._canvas.width, this._canvas.height, "green", this._logic.getPlayerScore("Green"), 0.2));
 				this._scoreGreenLabel = this.getLastGUIElement();
-				this.createLabel(0.3, 0.95, 0.4, 0.3, this._canvas.width, this._canvas.height, "red", this._logic.getPlayerScore("Red"), 0.2);
+				this.createGUIElement(new Label(0.3, 0.95, 0.4, 0.3, this._canvas.width, this._canvas.height, "red", this._logic.getPlayerScore("Red"), 0.2));
 				this._scoreRedLabel = this.getLastGUIElement();
 				this.renderScreen();
 				break;
