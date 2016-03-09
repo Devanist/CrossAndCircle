@@ -20,8 +20,10 @@ define(['json!Game/sounds.json'],function(cfg){
 		 */
 		playSound : function(sound){
 			if(!this._soundsPlaying[sound]){
-				this._soundsPlaying[sound] = this._soundsList[sound].cloneNode(true);
-				this._soundsPlaying[sound].addEventListener('ended', function(){
+			    this._soundsPlaying[sound] = this._soundsList[sound].cloneNode(true);
+			    document.body.appendChild(this._soundsPlaying[sound]);
+				this._soundsPlaying[sound].addEventListener('ended', function () {
+				    this._soundsPlaying[sound].parentNode.removeChild(this._soundsPlaying[sound]);
 					this._soundsPlaying[sound] = null;
 				}.bind(this));
 				this._soundsPlaying[sound].play();

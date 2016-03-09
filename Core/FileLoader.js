@@ -10,18 +10,15 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'],
 			{
 				name: "engineLogo",
 				assetType: "graphic",
-				source: ""
-			},
-			{
-				name: "engineIntro",
-				assetType: "sound",
-				source: ""
+				source: "Core/Assets/logo.jpg"
 			}
 		];
 		this._gameAssets = {
 			sounds: [],
 			graphics: []
 		};
+        this._loadedAssets = 0;
+        this._allAssets = this._engineAssets.length;
 	};
 	
 	FileLoader.prototype = {
@@ -29,8 +26,20 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'],
 		/**
 		 * Funkcja ładuje zasoby silnika.
 		 */
-		loadEngineAssets: function () {
-			
+		loadEngineAssets: function (callback) {
+            var that = this;
+			if(this._loadedAssets !== this._allAssets){
+                var name = this._engineAssets[this._loadedAssets].name;
+                this._gameAssets.graphics[name] = new Image();
+                this._gameAssets.graphics[name].onload = function(e){
+                    that.loadEngineAssets(callback);
+                };
+                this._gameAssets.graphics[name].src = this._engineAssets[this._loadedAssets].source;
+                this._loadedAssets++;
+            }
+            else{
+                callback();
+            }
 		},
 		
 		loadGameSounds: function () {
@@ -56,5 +65,7 @@ define(['json!Game/sounds.json', 'json!Game/graphics.json'],
 		}
 		
 	};
+    
+    return FileLoader;
 	
 });

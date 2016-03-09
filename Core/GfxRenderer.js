@@ -55,9 +55,13 @@ define(['Game/gamelogic'], function (Logic) {
 		
 		/**
 			Funkcja czyszcząca ekran - odmalowuje całe płótno na biały kolor
+            @param {String} color Kolor do czyszczenia ekranu, domyślnie biały.
 		*/
-		clear: function () {
-			this._ctx.fillStyle = "white";
+		clear: function (color) {
+            if(color === undefined || color === null){
+                color = "white";
+            }
+			this._ctx.fillStyle = color;
 			this._ctx.fillRect(0, 0, this._w, this._h);
 		},
 		
@@ -206,10 +210,9 @@ define(['Game/gamelogic'], function (Logic) {
 		
 		/**
 		 * Funkcja wyświetlająca na ekranie pionowy gradient.
-		 * @param {String} color Kolor gradientu
+		 * @param {splash} splash - gradient do wyświetlenia
 		 */
 		renderSplash: function (splash) {
-            console.log("rendering splash");
 			var gradient = this._ctx.createLinearGradient(0, 0, 0, this._h);
 			gradient.addColorStop(0, splash.getSecondColor());
 			gradient.addColorStop(2 / 5, splash.getColor());
@@ -217,8 +220,100 @@ define(['Game/gamelogic'], function (Logic) {
 			gradient.addColorStop(1, splash.getSecondColor());
 			this._ctx.fillStyle = gradient;
 			this._ctx.fillRect(0, 0, this._w, this._h);
-		}
+		},
+        
+        /**
+         * Funkcja wyświetlająca na ekranie wskazany sprite
+         * @param {sprite} sprite - sprite do wyświetlenia
+         */
+        renderSprite: function(sprite){
+            this._ctx.drawImage(sprite.getAsset(), sprite.getX(), sprite.getY());
+        },
+        
+        /**
+         * Funkcja wyświetla animację zanikania w danym kolorze.
+         * @param {object} position Obiekt zawierający informację o polu jakie ma zostać objęte animacją (x,y,w,h).
+         * @param {object} color Obiekt zawierający informację o składowych koloru (r,g,b).
+         * @param {int} time Czas w ms, w jakim ma zostać wykonana animacja, domyślnie 3000.
+         */ 
+        fadeOut: function(position, color, time){
+		
+		time = time || 3000;
 
+		var that = this;
+        	var alpha = 0.0;
+        	var rgb = "rgba(" + color.r + ", " + color.g + ", " + color.b + ",";
+        	var timeDiff = 16.6; //Aby wartość fps wynosiła 60
+        	var alphaDiff = 1 / (time / 16.6); // 1 / liczba klatek
+        	
+        	var displayFrame = function(){
+        		
+        		that._ctx.fillStyle = rgb + alpha + ")";
+        		that._ctx.fillRect(position.x, position.y, position.w, position.h);
+
+        		if(alpha === 1){
+        			return;
+        		}
+        		
+        		alpha += alphaDiff;
+        		
+        		if(alpha > 1){
+        			alpha = 1;
+        		}
+        		
+        		
+        		setTimeout(displayFrame, timeDiff);
+        	};
+        	
+        	setTimeout(displayFrame,timeDiff);
+
+        },
+        
+        /**
+         * Funkcja wyświetla animację pojawiania w danym kolorze.
+         * @param {object} position Obiekt zawierający informację o polu jakie ma zostać objęte animacją (x,y,w,h). Jeżeli ma być to cały ekran, można użyć stringa "all".
+         * @param {object} color Obiekt zawierający informację o składowych koloru (r,g,b).
+         * @param {int} time Czas w ms, w jakim ma zostać wykonana animacja, domyślnie 3000.
+         */ 
+        fadeIn : function(position, color, time){
+        	
+        	time = time || 3000;
+        	
+        	if(typeof(position) === "string" && position === "all"){
+        		position.x = 0;
+        		position.y = 0;
+        		position.w = this._w;
+        		position.h = this._h;
+        	}
+
+		var that = this;
+        	var alpha = 0.0;
+        	var rgb = "rgba(" + color.r + ", " + color.g + ", " + color.b + ",";
+        	var timeDiff = 16.6; //Aby wartość fps wynosiła 60
+        	var alphaDiff = 1 / (time / 16.6); // 1 / liczba klatek
+        	
+        	var displayFrame = function(){
+        		
+        		that._ctx.fillStyle = rgb + alpha + ")";
+        		that._ctx.fillRect(position.x, position.y, position.w, position.h);
+        		
+        		if(alpha === 0){
+        			return;
+        		}
+        		
+        		alpha -= alphaDiff;
+        		
+        		if(alpha < 0){
+        			alpha = 0;
+        		}
+        		
+        		setTimeout(displayFrame, timeDiff);
+        	};
+        	
+        	setTimeout(displayFrame,timeDiff);
+        	
+        }
+        
 	};
 
 	return GfxRenderer;

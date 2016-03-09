@@ -1,5 +1,5 @@
-define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init'],
-		function(Logic, Button, Label, Splash, GUI){
+define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init', 'Core/GUI/sprite'],
+		function(FileLoader, Logic, Button, Label, Splash, GUI, Sprite){
 			
 	"use strict";
 	
@@ -18,6 +18,7 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 		this._fontSize = 0.03;
 		this._font = "px 'Monoglyceride'";
 		this._GUIList = [];
+        this._fileLoader = new FileLoader();
 	};
 	
 	Core.prototype = {
@@ -137,6 +138,7 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 			Funkcja rysuje odpowiedni ekran, odpytując klasę Logic.
 		*/
 		renderScreen : function(){
+            this._renderer.clear();
 			if(this._logic.currentScreen() == Logic.SCREEN_MENU){
 				this._renderer.renderMenu(this._fontSize);
 			}
@@ -146,67 +148,41 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 			}
 			this.renderGUI();
 		},
-		 
-		/**
-			Funkcja wywołuje konstruktor klasy Button, tworząc nowy przycisk,
-			a następnie dodaje go do listy elementów GUI.
-			@param {double} x - współrzędna x
-			@param {double} y - współrzędna y
-			@param {double} w - szerokość
-			@param {double} h - wysokość
-			@param {int} width - szerokość okna
-			@param {int} height - wysokość okna
-			@param {function} foo - funkcja callback
-			@param {string} text - tekst do wyświetlenia na przycisku
-		*/
-		createButton : function(x, y, w, h, width, height, foo, text){
-			this._GUIList[this._GUIList.length] = new Button(x, y, w, h, width, height, foo, text);
-		},
-		
-		/**
-		 * Funkcja wywołuje konstruktor klasy Label, tworząc nową etykietę,
-		 * a następnie dodaje ją do listy elementów GUI.
-		 * @param {double} x - współrzędna x
-		 * @param {double} y - współrzędna y
-		 * @param {double} w - szerokość
-		 * @param {double} h - wysokość
-		 * @param {int} width - szerokość okna
-		 * @param {int} height - wysokość okna
-		 * @param {color} color - kolor czcionki
-		 * @param {string} text - tekst do wyświetlenia
-		 */
-		createLabel : function(x, y, w, h, width, height, color, text, fontSize){
-			this._GUIList[this._GUIList.length] = new Label(x, y, w, h, width, height, color, text, fontSize);
-		},
-		
-		/**
-		 * Funkcja tworzy splash i dodaje go do listy elementów GUI.
-		 */
-		createSplash : function(color, secondColor){
-			this._GUIList[this._GUIList.length] = new Splash(color, secondColor);
-		},
         
         /**
-         * Funkcja wyświetla logo silnika.
-         * TO-DO
+         * Dodaje wskazany element GUI do listy.
          */
-		runGame : function(){
-			var that = this;
-            /*var vid = document.getElementById("logo");
-            vid.addEventListener('play', function(){
-				if(!$this.paused && !$this.ended){
-					
-				}
-				else{
-					that.setUpScreen();
-	                that.renderScreen();
-	                that.renderGUI();
-				}
-			});
-            */
-            that.setUpScreen();
-	                that.renderScreen();
-	                that.renderGUI();
+        createGUIElement : function(GUIElement){
+            this._GUIList[this._GUIList.length] = GUIElement;
+        },
+        
+        /**
+         * Funkcja wyświetla logo silnika, a następnie uruchamia grę.
+         */
+        runGame : function(){
+            var that = this;
+            
+            this._fileLoader.loadEngineAssets(function(){
+
+		that.createGUIElement(new Sprite("CENTER", 
+                    {w:500, h:418}, 
+                    that._canvas.width, 
+                    that._canvas.height, 
+                    that._fileLoader.getGraphic('engineLogo')
+                ));
+                
+                that._renderer.clear();
+                that.renderGUI();
+                that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
+                
+                setTimeout(function(){
+                    that.removeLastElement();
+                    that._logic.setScreen(0);
+                    that.setUpScreen();
+                    that.renderScreen();
+                    that.renderGUI();
+                }, 3000);
+            });
         },
         
 		/**
@@ -223,6 +199,9 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 				if(this._GUIList[i].getType() === "splash"){
 					this._renderer.renderSplash(this._GUIList[i]);
 				}
+                if(this._GUIList[i].getType() === "sprite"){
+                    this._renderer.renderSprite(this._GUIList[i]);
+                }
 			}
 		},
 		
