@@ -1,4 +1,5 @@
-define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
+define(['Core/Core', 'Game/gamelogic', 'Core/GUI/Button', 'Core/GUI/Label', 'Core/GUI/Splash'], 
+function(Core, Logic, Button, Label, Splash){
 	
 	var Game = function(canvas, font){
 		Core.call(this, canvas, font);
