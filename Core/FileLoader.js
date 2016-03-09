@@ -1,4 +1,5 @@
-define(['json!Game/sounds.json', 'json!Game/graphics.json'], function (sounds, graphics) {
+define(['json!Game/sounds.json', 'json!Game/graphics.json'],
+	function (sounds, graphics) {
 	
 	/**
 	 * Klasa ładująca zasoby dla gry.
