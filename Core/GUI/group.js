@@ -56,6 +56,18 @@ define(['Core/GUI/init.js'], function(GUI){
             for(var i = 0; i < l; i++){
                 this._elements[i].update(w,h);
             }
+        },
+        
+        getElement : function(el){
+            return this._elements[el];
+        },
+        
+        length : function(){
+            return this._elements.length;
+        },
+        
+        getType : function(){
+            return "group";
         }
 		
 	};

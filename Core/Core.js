@@ -1,5 +1,14 @@
-define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init', 'Core/GUI/sprite'],
-		function(FileLoader, Logic, Button, Label, Splash, GUI, Sprite){
+define([
+    'Core/FileLoader',
+    'Game/gamelogic',
+    'Core/GUI/button',
+    'Core/GUI/label',
+    'Core/GUI/splash',
+    'Core/GUI/init',
+    'Core/GUI/sprite',
+    'Core/GUI/group'
+    ],
+	function(FileLoader, Logic, Button, Label, Splash, GUI, Sprite, Group){
 			
 	"use strict";
 	
@@ -17,7 +26,7 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
 		this._canvas.height = window.innerHeight;
 		this._fontSize = 0.03;
 		this._font = "px 'Monoglyceride'";
-		this._GUIList = [];
+		this._GUIList = new Group();
         this._fileLoader = new FileLoader();
 	};
 	
@@ -112,9 +121,7 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
 			this._canvas.width = window.innerWidth;
 			this._canvas.height = window.innerHeight;
 			this._renderer.update(this.getWidth(), this.getHeight());
-			for(var i = 0; i < this._GUIList.length; i++){
-				this._GUIList[i].update(this._canvas.width, this._canvas.height);
-			}
+            this._GUIList.update(this._canvas.width, this._canvas.height);
 			this.renderScreen();
 			this.renderGUI();
 		},
@@ -150,13 +157,6 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
 		},
         
         /**
-         * Dodaje wskazany element GUI do listy.
-         */
-        createGUIElement : function(GUIElement){
-            this._GUIList[this._GUIList.length] = GUIElement;
-        },
-        
-        /**
          * Funkcja wyświetla logo silnika, a następnie uruchamia grę.
          */
         runGame : function(){
@@ -183,45 +183,7 @@ define(['Core/FileLoader' ,'Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label'
                     that.renderGUI();
                 }, 3000);
             });
-        },
-        
-		/**
-			Funkcja rysuje wszystkie istniejące elementy graficznego interfejsu użytkownika.
-		*/
-		renderGUI : function(){
-			for(var i = 0; i < this._GUIList.length; i++){
-				if(this._GUIList[i].getType() === "button"){
-					this._renderer.renderButton(this._fontSize, this._GUIList[i]);
-				}
-				if(this._GUIList[i].getType() === "label"){
-					this._renderer.renderLabel(this._fontSize, this._GUIList[i]);
-				}
-				if(this._GUIList[i].getType() === "splash"){
-					this._renderer.renderSplash(this._GUIList[i]);
-				}
-                if(this._GUIList[i].getType() === "sprite"){
-                    this._renderer.renderSprite(this._GUIList[i]);
-                }
-			}
-		},
-		
-		getLastGUIElement : function(){
-			return this._GUIList[this._GUIList.length - 1];
-		},
-		
-		/**
-			Funkcja czyści listę elementów GUI.
-		*/
-		purgeGUIList : function(){
-			this._GUIList.length = 0;
-		},
-		
-		/**
-		    Funkcja usuwa ostatni element z listy GUI
-		 */
-		removeLastElement : function(){
-			this._GUIList.splice(this._GUIList.length - 1,1);
-		}
+        }
 
 	};
 

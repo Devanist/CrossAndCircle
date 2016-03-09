@@ -310,8 +310,31 @@ define(['Game/gamelogic'], function (Logic) {
         		setTimeout(displayFrame, timeDiff);
         	};
         	
-        	setTimeout(displayFrame,timeDiff);
+        	setTimeout(displayFrame, timeDiff);
         	
+        },
+        
+        renderGroup : function(group){
+            var l = group.length();
+            var el = null;
+            for(var i  = 0; i < l; i++){
+                el = group.getElement(i);
+                if(el.getType() === "sprite"){
+                    this.renderSprite(el);
+                }
+                else if(e.getType() === "splash"){
+                    this.renderSplash(el);
+                }
+                else if(e.getType() === "label"){
+                    this.renderLabel();
+                }
+                else if(e.getType() === "button"){
+                    this.renderButton(el);
+                }
+                else if(e.getType() === "group"){
+                    this.renderGroup(el);
+                }
+            }
         }
         
 	};

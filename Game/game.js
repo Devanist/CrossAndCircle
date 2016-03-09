@@ -77,12 +77,12 @@ function(Core, Logic, Button, Label, Splash){
 		if(this._logic.getState() != Logic.FINISHED){
 			if(who != Logic.EMPTY){
 				this._logic.setState(Logic.FINISHED);
-				this.createGUIElement(new Splash("white", {r: 0, g: 0, b: 0}));
+				this._GUIList.addElement("win_splash", new Splash("white", {r: 0, g: 0, b: 0}));
 				this._logic.increaseScore(who);
 				this._scoreRedLabel.setText(this._logic.getPlayerScore("Red"));
 				this._scoreGreenLabel.setText(this._logic.getPlayerScore("Green"));
 				var that = this;
-				this.createGUIElement(new Button(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				this._GUIList.add("win_again", new Button(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					//removebuttons
 					e.stopPropagation();
 					that._renderer.clear();
@@ -93,21 +93,21 @@ function(Core, Logic, Button, Label, Splash){
 					that._logic.resetLogic();
 					that.renderScreen();
 				}, "AGAIN"));
-				this.createGUIElement(new Button(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				this._GUIList.add("win_main", new Button(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					e.stopPropagation();
 					that._logic.resetScore();
 					that._logic.resetLogic();
 					that._logic.setScreen(Logic.SCREEN_MENU);
 				}, "MAIN MENU"));
-				this.createGUIElement(new Label(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", ""));
+				this._GUIList.add("win_winner", new Label(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", ""));
 				if(who == Logic.RED){
-					this._GUIList[this._GUIList.length - 1].setText("red won!");
+					this._GUIList.getElement("win_winner").setText("red won!");
 				}
 				else if(who == Logic.GREEN){
-					this._GUIList[this._GUIList.length - 1].setText("green won!");
+					this._GUIList.getElement("win_winner").setText("green won!");
 				}
 				else if(who == Logic.DRAW){
-					this._GUIList[this._GUIList.length - 1].setText("draw!");
+					this._GUIList.getElement("win_winner").setText("draw!");
 				}
 			}
 		}
