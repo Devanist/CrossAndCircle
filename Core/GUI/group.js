@@ -6,7 +6,7 @@ define(['Core/GUI/init.js'], function(GUI){
 	 */
 	var GUIElementsGroup = function(){
 		
-		this._elements = {};
+		this._elements = [];
 		
 	};
 	
@@ -44,7 +44,19 @@ define(['Core/GUI/init.js'], function(GUI){
 			else{
 				console.error("Element with name " + name + " don't exist in this group.");
 			}
-		}
+		},
+        
+        /**
+         * Metoda wywołująca funkcję update u wszystkich elementów należących do tej grupy.
+         * @param {int} w Szerokość okna
+         * @param {int} h Wysokość okna
+         */
+        update : function(w,h){
+            var l = this._elements.length;
+            for(var i = 0; i < l; i++){
+                this._elements[i].update(w,h);
+            }
+        }
 		
 	};
 	
