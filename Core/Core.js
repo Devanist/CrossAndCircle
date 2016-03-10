@@ -123,7 +123,7 @@ define([
 			this._renderer.update(this.getWidth(), this.getHeight());
             this._GUIList.update(this._canvas.width, this._canvas.height);
 			this.renderScreen();
-			this.renderGUI();
+			this._renderer.renderGroup(this._GUIList);
 		},
 		
 		/**

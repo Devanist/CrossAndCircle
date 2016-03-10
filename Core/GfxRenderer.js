@@ -327,7 +327,7 @@ define(['Game/gamelogic'], function (Logic) {
                     this.renderSplash(el);
                 }
                 else if(el.getType() === "label"){
-                    this.renderLabel();
+                    this.renderLabel(this._fontSize, el);
                 }
                 else if(el.getType() === "button"){
                     this.renderButton(this._fontSize, el);

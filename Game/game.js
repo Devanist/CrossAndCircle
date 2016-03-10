@@ -1,5 +1,12 @@
-define(['Core/Core', 'Game/gamelogic', 'Core/GUI/Button', 'Core/GUI/Label', 'Core/GUI/Splash'], 
-function(Core, Logic, Button, Label, Splash){
+define([
+    'Core/Core',
+    'Game/gamelogic',
+    'Core/GUI/Button',
+    'Core/GUI/Label',
+    'Core/GUI/Splash',
+    'Core/GUI/group'
+], 
+function(Core, Logic, Button, Label, Splash, Group){
 	
 	var Game = function(canvas, font){
 		Core.call(this, canvas, font);
@@ -90,7 +97,7 @@ function(Core, Logic, Button, Label, Splash){
 				this._GUIList.getElement("score_red").setText(this._logic.getPlayerScore("Red"));
 				this._GUIList.getElement("score_green").setText(this._logic.getPlayerScore("Green"));
 
-				winGroup.add("win_again", new Button(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				winGroup.addElement("win_again", new Button(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					//removebuttons
 					e.stopPropagation();
 					that._renderer.clear();
@@ -98,13 +105,13 @@ function(Core, Logic, Button, Label, Splash){
 					that._logic.resetLogic();
 					that.renderScreen();
 				}, "AGAIN"));
-				winGroup.add("win_main", new Button(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				winGroup.addElement("win_main", new Button(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					e.stopPropagation();
 					that._logic.resetScore();
 					that._logic.resetLogic();
 					that._logic.setScreen(Logic.SCREEN_MENU);
 				}, "MAIN MENU"));
-				winGroup.add("win_winner", new Label(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", ""));
+				winGroup.addElement("win_winner", new Label(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", ""));
                 
 				if(who == Logic.RED){
 					winGroup.getElement("win_winner").setText("red won!");
@@ -224,9 +231,9 @@ function(Core, Logic, Button, Label, Splash){
 			}
 			else{
 				for(i = 0; i < l; i++){
-					if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() && 
-                       y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
-						this._GUIList[i].runCallback(e);
+					if(x > this._GUIList.getElement(i).getX() && x < this._GUIList.getElement(i).getEndX() && 
+                       y > this._GUIList.getElement(i).getY() && y < this._GUIList.getElement(i).getEndY()){
+						this._GUIList.getElement(i).runCallback(e);
 					}
 				}
 			}

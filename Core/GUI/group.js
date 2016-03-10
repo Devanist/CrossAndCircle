@@ -64,7 +64,7 @@ define(['Core/GUI/init.js'], function(GUI){
             var l = this._elements.length;
             for(var key in this._elements){
                 if(this._elements.hasOwnProperty(key)){
-                    key.update(w,h);
+                    this._elements[key].update(w,h);
                 }
             }
         },
@@ -84,7 +84,9 @@ define(['Core/GUI/init.js'], function(GUI){
         
         getType : function(){
             return "group";
-        }
+        },
+        
+        
 		
 	};
 	
