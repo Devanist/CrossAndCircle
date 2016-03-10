@@ -107,6 +107,7 @@ function(Core, Logic, Button, Label, Splash, Group){
 				}, "AGAIN"));
 				winGroup.addElement("win_main", new Button(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					e.stopPropagation();
+                    that._GUIList.deleteAllElements();
 					that._logic.resetScore();
 					that._logic.resetLogic();
 					that._logic.setScreen(Logic.SCREEN_MENU);
@@ -230,12 +231,7 @@ function(Core, Logic, Button, Label, Splash, Group){
 				this.renderScreen();
 			}
 			else{
-				for(i = 0; i < l; i++){
-					if(x > this._GUIList.getElement(i).getX() && x < this._GUIList.getElement(i).getEndX() && 
-                       y > this._GUIList.getElement(i).getY() && y < this._GUIList.getElement(i).getEndY()){
-						this._GUIList.getElement(i).runCallback(e);
-					}
-				}
+				this._GUIList.checkIfElementClicked(x, y, e);
 			}
 		}
 	};

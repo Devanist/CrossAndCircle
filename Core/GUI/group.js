@@ -47,6 +47,7 @@ define(['Core/GUI/init.js'], function(GUI){
             var index = this._names.indexOf(name);
 			if(this._elements[name] || index !== -1){
 				this._elements[name] = null;
+                delete this._elements[name];
                 this._names.splice(index, 1);
                 this._length--;
 			}
@@ -69,6 +70,12 @@ define(['Core/GUI/init.js'], function(GUI){
             }
         },
         
+        /**
+         * Metoda zwracająca żądany element GUI
+         * @param {string} el Nazwa żądanego elementu
+         * @param {int} el Indeks żądanego elementu
+         * @returns {object}
+         */
         getElement : function(el){
             if(typeof(el) === "string"){
                 return this._elements[el];
@@ -78,15 +85,32 @@ define(['Core/GUI/init.js'], function(GUI){
             }
         },
         
+        /**
+         * Metoda zwraca ilość znajdujących się w tej grupie elementów.
+         * Nie liczy elementów w zagnieżdżonych grupach.
+         * @returns {int}
+         */
         length : function(){
             return this._length;
         },
         
+        /**
+         * Metoda zwraca string "group", aby mogła być wykorzysytywana jako element GUI
+         */
         getType : function(){
             return "group";
         },
         
-        
+        /**
+         * Metoda sprawdza na obszarze którego, ze znajdujących się w tej grupie elementów, nastąpiło kliknięcie.
+         */
+        checkIfElementClicked : function(x, y, e){
+            for(var key in this._elements){
+                if(this._elements.hasOwnProperty(key)){
+                    this._elements[key].checkIfElementClicked(x, y, e);
+                }
+            }
+        }
 		
 	};
 	
