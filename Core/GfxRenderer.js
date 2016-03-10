@@ -7,11 +7,12 @@ define(['Game/gamelogic'], function (Logic) {
 		@param {double} w - Szerokosc obiektu canvas
 		@param {double} h - Wysokosc obiektu canvas
 	*/
-	var GfxRenderer = function (ctx, w, h, font) {
+	var GfxRenderer = function (ctx, w, h, font, fontSize) {
 		this._ctx = ctx;
 		this._w = w;
 		this._h = h;
 		this._font = font;
+        this._fontSize = fontSize;
 	};
 
 	GfxRenderer.prototype = {
@@ -322,16 +323,16 @@ define(['Game/gamelogic'], function (Logic) {
                 if(el.getType() === "sprite"){
                     this.renderSprite(el);
                 }
-                else if(e.getType() === "splash"){
+                else if(el.getType() === "splash"){
                     this.renderSplash(el);
                 }
-                else if(e.getType() === "label"){
+                else if(el.getType() === "label"){
                     this.renderLabel();
                 }
-                else if(e.getType() === "button"){
-                    this.renderButton(el);
+                else if(el.getType() === "button"){
+                    this.renderButton(this._fontSize, el);
                 }
-                else if(e.getType() === "group"){
+                else if(el.getType() === "group"){
                     this.renderGroup(el);
                 }
             }

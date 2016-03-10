@@ -7,6 +7,7 @@ define(['Core/GUI/init.js'], function(GUI){
 	var GUIElementsGroup = function(){
 		
 		this._elements = [];
+        this._names = [];
         this._length = 0;
 		
 	};
@@ -21,6 +22,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		addElement : function(name, element){
 			if(this._elements[name] !== null && this._elements !== undefined){
 				this._elements[name] = element;
+                this._names.push(name);
                 this._length++;
 			}
 			else{
@@ -33,6 +35,7 @@ define(['Core/GUI/init.js'], function(GUI){
 		 */
 		deleteAllElements : function(){
 			this._elements = {};
+            this._names = [];
             this._length = 0;
 		},
 		
@@ -41,8 +44,10 @@ define(['Core/GUI/init.js'], function(GUI){
 		 * @param {String} name Nazwa usuwanego elementu
 		 */
 		deleteElement : function(name){
-			if(this._elements[name]){
+            var index = this._names.indexOf(name);
+			if(this._elements[name] || index !== -1){
 				this._elements[name] = null;
+                this._names.splice(index, 1);
                 this._length--;
 			}
 			else{
@@ -57,13 +62,20 @@ define(['Core/GUI/init.js'], function(GUI){
          */
         update : function(w,h){
             var l = this._elements.length;
-            for(var i = 0; i < l; i++){
-                this._elements[i].update(w,h);
+            for(var key in this._elements){
+                if(this._elements.hasOwnProperty(key)){
+                    key.update(w,h);
+                }
             }
         },
         
         getElement : function(el){
-            return this._elements[el];
+            if(typeof(el) === "string"){
+                return this._elements[el];
+            }
+            else if(typeof(el) === "number"){
+                return this._elements[this._names[el]];
+            }
         },
         
         length : function(){
