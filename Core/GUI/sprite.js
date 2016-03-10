@@ -16,8 +16,7 @@ define(['Core/GUI/init'], function(GUI){
                 position.y = (height / 2) - (size.h / 2);
             }
         }
-        console.log(position);
-        console.log(size);
+
         GUI.call(this, position.x, position.y, size.w, size.h, width, height, null, null, "sprite");
         this._asset = sprite;
         this._position = position.textValue;
