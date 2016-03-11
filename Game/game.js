@@ -1,4 +1,12 @@
-define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
+define([
+    'Core/Core',
+    'Game/gamelogic',
+    'Core/GUI/Button',
+    'Core/GUI/Label',
+    'Core/GUI/Splash',
+    'Core/GUI/group'
+], 
+function(Core, Logic, Button, Label, Splash, Group){
 	
 	var Game = function(canvas, font){
 		Core.call(this, canvas, font);
@@ -73,41 +81,49 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 		@param {const int} who - stała wskazująca kto wygrał
 	*/
 	_p.handleWin = function(who){
+        var that = this;
+        
 		if(this._logic.getState() != Logic.FINISHED){
-			if(who != Logic.EMPTY){
+			
+            if(who != Logic.EMPTY){
+                
 				this._logic.setState(Logic.FINISHED);
-				this.createSplash("white", {r: 0, g: 0, b: 0});
+                
+                var winGroup = new Group();
+                this._GUIList.addElement("win_group", winGroup);
+                
+				winGroup.addElement("win_splash", new Splash("white", {r: 0, g: 0, b: 0}));
 				this._logic.increaseScore(who);
-				this._scoreRedLabel.setText(this._logic.getPlayerScore("Red"));
-				this._scoreGreenLabel.setText(this._logic.getPlayerScore("Green"));
-				var that = this;
-				this.createButton(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				this._GUIList.getElement("score_red").setText(this._logic.getPlayerScore("Red"));
+				this._GUIList.getElement("score_green").setText(this._logic.getPlayerScore("Green"));
+
+				winGroup.addElement("win_again", new Button(0.2, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					//removebuttons
 					e.stopPropagation();
 					that._renderer.clear();
-					that.removeLastElement();
-					that.removeLastElement();
-					that.removeLastElement();
-					that.removeLastElement();
+					that._GUIList.deleteElement("win_group");
 					that._logic.resetLogic();
 					that.renderScreen();
-				}, "AGAIN");
-				this.createButton(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
+				}, "AGAIN"));
+				winGroup.addElement("win_main", new Button(0.6, 0.48, 0.2, 0.08, this._canvas.width, this._canvas.height, function(e){
 					e.stopPropagation();
+                    that._GUIList.deleteAllElements();
 					that._logic.resetScore();
 					that._logic.resetLogic();
 					that._logic.setScreen(Logic.SCREEN_MENU);
-				}, "MAIN MENU");
-				this.createLabel(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", "");
+				}, "MAIN MENU"));
+				winGroup.addElement("win_winner", new Label(0, 0.44, 1, 1/4, this._canvas.width, this._canvas.height, "black", ""));
+                
 				if(who == Logic.RED){
-					this._GUIList[this._GUIList.length - 1].setText("red won!");
+					winGroup.getElement("win_winner").setText("red won!");
 				}
 				else if(who == Logic.GREEN){
-					this._GUIList[this._GUIList.length - 1].setText("green won!");
+					winGroup.getElement("win_winner").setText("green won!");
 				}
 				else if(who == Logic.DRAW){
-					this._GUIList[this._GUIList.length - 1].setText("draw!");
+					winGroup.getElement("win_winner").setText("draw!");
 				}
+                
 			}
 		}
 	};
@@ -118,31 +134,29 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 	_p.setUpScreen = function(){
 	
 		this._renderer.clear();
-		this.purgeGUIList();
+		this._GUIList.deleteAllElements();
 		var that = this;
 		switch(this._logic.currentScreen()){
 	
 			case Logic.SCREEN_MENU:
 				this._renderer.renderMenu(this._fontSize);
-				this.createButton(0.3, 0.6, 0.4, 0.08, this._canvas.width, this._canvas.height,
+				this._GUIList.addElement("menu_newgame", new Button(0.3, 0.6, 0.4, 0.08, this._canvas.width, this._canvas.height,
 						function(e){
 							e.stopPropagation();
 							that._logic.setScreen(Logic.SCREEN_GAME);
 						}, 
-						"NEW GAME");
-				this.createButton(0.3, 0.75, 0.4, 0.08, this._canvas.width, this._canvas.height,
+						"NEW GAME"));
+				this._GUIList.addElement("menu_about", new Button(0.3, 0.75, 0.4, 0.08, this._canvas.width, this._canvas.height,
 						function(){
 							document.getElementById("aboutLink").click();
 					},
-					"ABOUT");
+					"ABOUT"));
 				this.renderScreen();
 				break;
 	
 			case Logic.SCREEN_GAME:
-				this.createLabel(0.3, 0.2, 0.4, 0.3, this._canvas.width, this._canvas.height, "green", this._logic.getPlayerScore("Green"), 0.2);
-				this._scoreGreenLabel = this.getLastGUIElement();
-				this.createLabel(0.3, 0.95, 0.4, 0.3, this._canvas.width, this._canvas.height, "red", this._logic.getPlayerScore("Red"), 0.2);
-				this._scoreRedLabel = this.getLastGUIElement();
+				this._GUIList.addElement("score_green", new Label(0.3, 0.2, 0.4, 0.3, this._canvas.width, this._canvas.height, "green", this._logic.getPlayerScore("Green"), 0.2));
+				this._GUIList.addElement("score_red", new Label(0.3, 0.95, 0.4, 0.3, this._canvas.width, this._canvas.height, "red", this._logic.getPlayerScore("Red"), 0.2));
 				this.renderScreen();
 				break;
 		}
@@ -156,12 +170,19 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 	_p.handleClick = function(e){
 		var x = e.x;
 		var y = e.y;
+        var l = this._GUIList.length();
+        var i = 0;
+        var temp = null;
+        
 		this._soundctrl.playSound('tick');
 		if(this._logic.currentScreen() == Logic.SCREEN_MENU){
-			for(var i = 0; i < this._GUIList.length; i++){
-				if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() && 
-                   y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
-					this._GUIList[i].runCallback(e);
+            
+            temp = this._GUIList.getElement(i);
+            
+			for(i = 0; i < l; i++){
+				if(x > temp.getX() && x < temp.getEndX() && 
+                   y > temp.getY() && y < temp.getEndY()){
+					temp.runCallback(e);
 				}
 			}
 		}
@@ -210,12 +231,7 @@ define(['Core/Core', 'Game/gamelogic'], function(Core, Logic){
 				this.renderScreen();
 			}
 			else{
-				for(var i = 0; i < this._GUIList.length; i++){
-					if(x > this._GUIList[i].getX() && x < this._GUIList[i].getEndX() && 
-                       y > this._GUIList[i].getY() && y < this._GUIList[i].getEndY()){
-						this._GUIList[i].runCallback(e);
-					}
-				}
+				this._GUIList.checkIfElementClicked(x, y, e);
 			}
 		}
 	};

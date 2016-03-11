@@ -53,8 +53,8 @@ define([], function(){
         
         /**
             Na nowo oblicza pozycje i rozmiary elementów GUI po zmianie rozmiaru okna.
-            @param {double} width - Szerokość okna
-            @param {double} height - Wysokość okna
+            @param {int} width - Szerokość okna
+            @param {int} height - Wysokość okna
         */
         update : function(width, height){
             this._realX = this._x * width;
@@ -146,8 +146,25 @@ define([], function(){
             if(this.callback !== null && this.callback != "undefined"){
                 this.callback(args);
             }
+        },
+        
+        /**
+         * Metoda sprawdza czy kliknięcie nastąpiło w obszarze zajmowanym przez dany element
+         * @param {int} x Współrzędna x kliknięcia
+         * @param {int} y Współrzędna y kliknięcia
+         * @param {object} e Obiekt zdarzenia kliknięcia
+         */
+        checkIfElementClicked : function(x, y, e){
+            if(x >= this._realX &&
+               x <= this._realX + this._realW &&
+               y >= this._realY &&
+               y <= this._realY + this._realH
+              ){
+                this.runCallback(e);
+            }
         }
         
+
     };
  
     return GUI;

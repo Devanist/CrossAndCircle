@@ -3,7 +3,7 @@ define(['Core/Logic/Currency'], function(Currency){
 	var Score = function(){
 		Currency.call(this);
 		this.setAmount(0);
-	}
+	};
 	
 	Score.prototype = Object.create(Currency.prototype,{
 		constructor: {
@@ -12,8 +12,8 @@ define(['Core/Logic/Currency'], function(Currency){
 			writable: true,
 			configurable: true
 		}
-	})
+	});
 	
 	return Score;
 	
-})
+});

@@ -1,5 +1,14 @@
-define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash', 'Core/GUI/init'],
-		function(Logic, Button, Label, Splash, GUI){
+define([
+    'Core/FileLoader',
+    'Game/gamelogic',
+    'Core/GUI/button',
+    'Core/GUI/label',
+    'Core/GUI/splash',
+    'Core/GUI/init',
+    'Core/GUI/sprite',
+    'Core/GUI/group'
+    ],
+	function(FileLoader, Logic, Button, Label, Splash, GUI, Sprite, Group){
 			
 	"use strict";
 	
@@ -17,7 +26,8 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 		this._canvas.height = window.innerHeight;
 		this._fontSize = 0.03;
 		this._font = "px 'Monoglyceride'";
-		this._GUIList = [];
+		this._GUIList = new Group();
+        this._fileLoader = new FileLoader();
 	};
 	
 	Core.prototype = {
@@ -111,11 +121,9 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 			this._canvas.width = window.innerWidth;
 			this._canvas.height = window.innerHeight;
 			this._renderer.update(this.getWidth(), this.getHeight());
-			for(var i = 0; i < this._GUIList.length; i++){
-				this._GUIList[i].update(this._canvas.width, this._canvas.height);
-			}
+            this._GUIList.update(this._canvas.width, this._canvas.height);
 			this.renderScreen();
-			this.renderGUI();
+			this._renderer.renderGroup(this._GUIList);
 		},
 		
 		/**
@@ -124,13 +132,14 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 			@param {double} y - Współrzędna y kliknięcia
 		*/
 		handleClick : function(x, y){
-		
+            
 		},
 		
 		/**
 			Funkcja przygotowuje elementy ekranu do wyrysowania.
 		*/
 		setUpScreen : function(){
+            
 		},
 		
 		/**
@@ -145,105 +154,39 @@ define(['Game/gamelogic', 'Core/GUI/button', 'Core/GUI/label', 'Core/GUI/splash'
 				this._squares = this._renderer.renderMap(this._horizontalSize, this._verticalSize);
 				this.renderSigns();
 			}
-			this.renderGUI();
-		},
-		 
-		/**
-			Funkcja wywołuje konstruktor klasy Button, tworząc nowy przycisk,
-			a następnie dodaje go do listy elementów GUI.
-			@param {double} x - współrzędna x
-			@param {double} y - współrzędna y
-			@param {double} w - szerokość
-			@param {double} h - wysokość
-			@param {int} width - szerokość okna
-			@param {int} height - wysokość okna
-			@param {function} foo - funkcja callback
-			@param {string} text - tekst do wyświetlenia na przycisku
-		*/
-		createButton : function(x, y, w, h, width, height, foo, text){
-			this._GUIList[this._GUIList.length] = new Button(x, y, w, h, width, height, foo, text);
-		},
-		
-		/**
-		 * Funkcja wywołuje konstruktor klasy Label, tworząc nową etykietę,
-		 * a następnie dodaje ją do listy elementów GUI.
-		 * @param {double} x - współrzędna x
-		 * @param {double} y - współrzędna y
-		 * @param {double} w - szerokość
-		 * @param {double} h - wysokość
-		 * @param {int} width - szerokość okna
-		 * @param {int} height - wysokość okna
-		 * @param {color} color - kolor czcionki
-		 * @param {string} text - tekst do wyświetlenia
-		 */
-		createLabel : function(x, y, w, h, width, height, color, text, fontSize){
-			this._GUIList[this._GUIList.length] = new Label(x, y, w, h, width, height, color, text, fontSize);
-		},
-		
-		/**
-		 * Funkcja tworzy splash i dodaje go do listy elementów GUI.
-		 */
-		createSplash : function(color, secondColor){
-			this._GUIList[this._GUIList.length] = new Splash(color, secondColor);
+			this._renderer.renderGroup(this._GUIList);
 		},
         
         /**
-         * Funkcja wyświetla logo silnika.
-         * TO-DO
+         * Funkcja wyświetla logo silnika, a następnie uruchamia grę.
          */
-		runGame : function(){
-			var that = this;
-            /*var vid = document.getElementById("logo");
-            vid.addEventListener('play', function(){
-				if(!$this.paused && !$this.ended){
-					
-				}
-				else{
-					that.setUpScreen();
-	                that.renderScreen();
-	                that.renderGUI();
-				}
-			});
-            */
-            that.setUpScreen();
-	                that.renderScreen();
-	                that.renderGUI();
-        },
-        
-		/**
-			Funkcja rysuje wszystkie istniejące elementy graficznego interfejsu użytkownika.
-		*/
-		renderGUI : function(){
-			for(var i = 0; i < this._GUIList.length; i++){
-				if(this._GUIList[i].getType() === "button"){
-					this._renderer.renderButton(this._fontSize, this._GUIList[i]);
-				}
-				if(this._GUIList[i].getType() === "label"){
-					this._renderer.renderLabel(this._fontSize, this._GUIList[i]);
-				}
-				if(this._GUIList[i].getType() === "splash"){
-					this._renderer.renderSplash(this._GUIList[i]);
-				}
-			}
-		},
-		
-		getLastGUIElement : function(){
-			return this._GUIList[this._GUIList.length - 1];
-		},
-		
-		/**
-			Funkcja czyści listę elementów GUI.
-		*/
-		purgeGUIList : function(){
-			this._GUIList.length = 0;
-		},
-		
-		/**
-		    Funkcja usuwa ostatni element z listy GUI
-		 */
-		removeLastElement : function(){
-			this._GUIList.splice(this._GUIList.length - 1,1);
-		}
+        runGame : function(){
+            var that = this;
+            
+            this._fileLoader.loadEngineAssets(function(){
+
+                that._GUIList.addElement("engine_logo", 
+                    new Sprite("CENTER", 
+                        {w:500, h:418}, 
+                        that._canvas.width, 
+                        that._canvas.height, 
+                        that._fileLoader.getGraphic('engineLogo')
+                    )
+                );
+                    
+                that._renderer.clear();
+                that._renderer.renderGroup(that._GUIList);
+                //that._renderer.fadeIn("all", {r: 0, g: 0, b: 0});
+                    
+                setTimeout(function(){
+                    that._GUIList.deleteElement("engine_logo");
+                    that._logic.setScreen(0);
+                    that.setUpScreen();
+                    that.renderScreen();
+                    that._renderer.renderGroup(that._GUIList);
+                }, 3000);
+            });
+        }
 
 	};
 

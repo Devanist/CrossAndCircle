@@ -113,10 +113,7 @@ define(['Core/Logic/Logic'], function(LogicCore){
 		@returns {bool}
 	*/
 	_p.isCellFree = function(w, k){
-		if(this._board[w][k] == GameLogic.EMPTY){
-			return true;
-		}
-		return false;
+        return this._board[w][k] === GameLogic.EMPTY;
 	};
 	
 	/**
@@ -124,7 +121,6 @@ define(['Core/Logic/Logic'], function(LogicCore){
 	*/
 	_p.madeMove = function(){
 		this._moves--;
-		console.log(this._moves);
 	};
 	
 	/**

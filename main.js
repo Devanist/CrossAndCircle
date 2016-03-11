@@ -7,7 +7,7 @@ requirejs(['rConfig',
 
 	//Tworzenie instancji klas
 	var _g = new Game(document.getElementById('mainCanvas'), "Monoglyceride");
-	var _gfxr = new GfxRenderer(_g.getContext2D(), _g.getWidth(), _g.getHeight(), _g.getFont());
+	var _gfxr = new GfxRenderer(_g.getContext2D(), _g.getWidth(), _g.getHeight(), _g.getFont(), _g.getFontSize());
 	var _logic = new Logic();
 	var _sctrl = new SoundController();
 	
