@@ -1,23 +1,21 @@
-requirejs(['rConfig', 
+define([
 	'Game/game', 
-	'Core/GfxRenderer', 
+	'Game/gamerenderer', 
 	'Game/gamelogic',
-	'Core/SoundController'],
-	function(rcfg, Game, GfxRenderer, Logic, SoundController){
+	'WalrusEngine/Core/SoundController',
+    'json!Game/sounds.json'
+    ],
+	function(Game, GameRenderer, Logic, SoundController, soundsCfg){
 
 	//Tworzenie instancji klas
 	var _g = new Game(document.getElementById('mainCanvas'), "Monoglyceride");
-	var _gfxr = new GfxRenderer(_g.getContext2D(), _g.getWidth(), _g.getHeight(), _g.getFont(), _g.getFontSize());
+	var _gfxr = new GameRenderer(_g.getContext2D(), _g.getWidth(), _g.getHeight(), _g.getFont(), _g.getFontSize());
 	var _logic = new Logic();
-	var _sctrl = new SoundController();
+	var _sctrl = new SoundController(soundsCfg);
 	
 	_g.setRenderer(_gfxr);
 	_g.setLogic(_logic);
 	_g.setSoundController(_sctrl);
-
-	//Dodanie graczy do gry
-	_logic.addPlayer("Red");
-	_logic.addPlayer("Green");
 
 	//Czyszczenie ekranu
 	_gfxr.clear();
