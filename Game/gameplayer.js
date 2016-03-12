@@ -1,5 +1,14 @@
-define(['Core/Logic/Player', 'Game/Score'], function (Player, Score) {
+define([
+    'WalrusEngine/Core/Logic/Player', 
+    'Game/Score'
+    ], 
+    function (Player, Score) {
 
+    /**
+     * Klasa reprezentująca gracza w grze.
+     * @constructor
+     * @param {string} name Nazwa gracza
+     */
 	var GamePlayer = function (name) {
 		Player.call(this);
 		this.addCurrency("Score", new Score());

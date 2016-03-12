@@ -1,4 +1,7 @@
-define(['Core/Logic/Currency'], function(Currency){
+define([
+    'WalrusEngine/Core/Logic/Currency'
+    ], 
+    function(Currency){
 	
 	var Score = function(){
 		Currency.call(this);

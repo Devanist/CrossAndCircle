@@ -1,4 +1,7 @@
-define(['Core/Logic/Logic'], function(LogicCore){
+define([
+    'WalrusEngine/Core/Logic/Logic'
+    ], 
+    function(LogicCore){
 	
 	var GameLogic = function(){
 		LogicCore.call(this);
