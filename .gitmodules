@@ -1,0 +1,3 @@
+[submodule "WalrusEngine"]
+	path = WalrusEngine
+	url = http://github.com/Devanist/WalrusEngine.git

@@ -1,4 +1,7 @@
-define(['Core/Reporter'], function (Reporter) { 
+define([
+    'WalrusEngine/Core/Reporter'
+    ], 
+    function (Reporter) { 
 	
 	var GameReporter = function () {
 		Reporter.call(this);

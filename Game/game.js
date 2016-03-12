@@ -1,12 +1,13 @@
 define([
-    'Core/Core',
+    'WalrusEngine/Core/Core',
     'Game/gamelogic',
-    'Core/GUI/Button',
-    'Core/GUI/Label',
-    'Core/GUI/Splash',
-    'Core/GUI/group'
+    'WalrusEngine/Core/GUI/Button',
+    'WalrusEngine/Core/GUI/Label',
+    'WalrusEngine/Core/GUI/Splash',
+    'WalrusEngine/Core/GUI/group',
+    'Game/gameplayer'
 ], 
-function(Core, Logic, Button, Label, Splash, Group){
+function(Core, Logic, Button, Label, Splash, Group, Player){
 	
 	var Game = function(canvas, font){
 		Core.call(this, canvas, font);
@@ -75,6 +76,21 @@ function(Core, Logic, Button, Label, Splash, Group){
 			}
 		}
 	};
+    
+    /**
+        Funkcja rysuje odpowiedni ekran, odpytując klasę Logic.
+    */
+    _p.renderScreen = function(){
+        this._renderer.clear();
+        if(this._logic.currentScreen() == Logic.SCREEN_MENU){
+            this._renderer.renderMenu(this._fontSize);
+        }
+        if(this._logic.currentScreen() == Logic.SCREEN_GAME){
+            this._squares = this._renderer.renderMap(this._horizontalSize, this._verticalSize);
+            this.renderSigns();
+        }
+        this._renderer.renderGroup(this._GUIList);
+    };
 	
 	/**
 		Funkcja obsługuje wygraną. Wyświetla splash screen, przyciski i ewentualnie zwiększa wynik.
@@ -147,10 +163,10 @@ function(Core, Logic, Button, Label, Splash, Group){
 						}, 
 						"NEW GAME"));
 				this._GUIList.addElement("menu_about", new Button(0.3, 0.75, 0.4, 0.08, this._canvas.width, this._canvas.height,
-						function(){
+						function(e){
 							document.getElementById("aboutLink").click();
-					},
-					"ABOUT"));
+                        },
+                        "ABOUT"));
 				this.renderScreen();
 				break;
 	
@@ -177,9 +193,8 @@ function(Core, Logic, Button, Label, Splash, Group){
 		this._soundctrl.playSound('tick');
 		if(this._logic.currentScreen() == Logic.SCREEN_MENU){
             
-            temp = this._GUIList.getElement(i);
-            
 			for(i = 0; i < l; i++){
+                temp = this._GUIList.getElement(i);
 				if(x > temp.getX() && x < temp.getEndX() && 
                    y > temp.getY() && y < temp.getEndY()){
 					temp.runCallback(e);
@@ -235,6 +250,19 @@ function(Core, Logic, Button, Label, Splash, Group){
 			}
 		}
 	};
+    
+    _p.init = function(){
+        
+        //Stworzenie graczy
+        this._logic.addPlayer(new Player("Red"));
+	    this._logic.addPlayer(new Player("Green"));
+        
+        //Inicjalizacja
+        this._logic.setScreen(0);
+        this.setUpScreen();
+        this.renderScreen();
+        this._renderer.renderGroup(this._GUIList);
+    };
 	
 	return Game;
 	
